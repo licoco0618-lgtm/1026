@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智光商工 115學年度第一學期 物理科第一次段考・全方位試卷解析平台</title>
+  <meta name="description" content="智光商工物理科段考原卷對照、逐題詳解、錯題深度剖析、考點速記地圖與互動線上自測平台">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 背景光暈裝飾 -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- 頂部頂級導航列 -->
+  <header class="site-header">
+    <div class="header-container">
+      <div class="brand-area">
+        <div class="brand-icon">⚛️</div>
+        <div class="brand-text">
+          <div class="brand-badge-group">
+            <span class="badge badge-primary">智光商工 日間部</span>
+            <span class="badge badge-sub">115 學年度 第一學期 第一次段考</span>
+            <span class="badge badge-accent">高職物理</span>
+          </div>
+          <h1 class="brand-title">物理科試卷・全方位高解析互動平台</h1>
+        </div>
+      </div>
+
+      <!-- 右側快速數據儀表與操作 -->
+      <div class="header-stats-panel">
+        <div class="score-card-pill" id="quickWrongBtn" title="點擊快速查看扣分錯題">
+          <div class="score-meta">
+            <span class="score-label">卷面實得成績</span>
+            <span class="score-student-info">一年仁班 3 號 李英慈</span>
+          </div>
+          <div class="score-val-group">
+            <span class="score-number">90</span>
+            <span class="score-total">/ 100</span>
+          </div>
+          <div class="score-sub-details">
+            <span class="sub-item correct">選擇 74/80</span>
+            <span class="sub-item warning">填充 16/20</span>
+          </div>
+        </div>
+
+        <button class="btn-primary-action" id="btnHeaderQuiz">
+          <span class="btn-icon">🎯</span> 線上實戰測驗
+        </button>
+      </div>
+    </div>
+
+    <!-- 主頁籤切換導航 -->
+    <nav class="main-tabs-bar">
+      <div class="tabs-container">
+        <button class="tab-btn active" data-tab="tab-compare">
+          <span class="tab-icon">📄</span>
+          <span class="tab-text">試卷原件對照檢視</span>
+          <span class="tab-badge">正面 / 反面</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-solutions">
+          <span class="tab-icon">🔍</span>
+          <span class="tab-text">題庫全真逐題詳解</span>
+          <span class="tab-badge count-badge">46 題</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-quiz">
+          <span class="tab-icon">✍️</span>
+          <span class="tab-text">互動實戰模擬自測</span>
+          <span class="tab-badge quiz-badge">即時評分</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-cheatsheet">
+          <span class="tab-icon">🧠</span>
+          <span class="tab-text">段考核心考點地圖</span>
+          <span class="tab-badge cheat-badge">高頻必考</span>
+        </button>
+      </div>
+
+      <div class="header-tools">
+        <button class="tool-btn" id="btnToggleWrongFilter" title="快速切換只看卷面扣分題">
+          <span class="icon">⚠️</span> <span class="text">錯題速查 (5)</span>
+        </button>
+        <button class="tool-btn" id="btnPrintPage" title="友善列印完整解析講義">
+          <span class="icon">🖨️</span> <span class="text">列印解析</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- 主內容區域 -->
+  <main class="site-main">
+
+    <!-- ==================== TAB 1: 試卷原件對照模式 ==================== -->
+    <section id="tab-compare" class="tab-content active">
+      
+      <!-- 手機專屬視圖快速切換分頁條 (螢幕寬度 <= 768px 時顯示) -->
+      <div class="mobile-view-tabs" id="mobileCompareTabs">
+        <button class="mobile-view-btn active" data-view="scan" id="btnMobileViewScan">
+          <span class="icon">🖼️</span> 試卷原圖
+        </button>
+        <button class="mobile-view-btn" data-view="inspector" id="btnMobileViewInspector">
+          <span class="icon">📝</span> 題目詳解 (<span id="mobileCurrentQText">第 1 題</span>)
+        </button>
+      </div>
+
+      <div class="compare-layout" id="compareLayout">
+        
+        <!-- 左側：圖片互動檢視器 -->
+        <div class="scan-viewer-panel" id="scanViewerPanel">
+          <div class="viewer-toolbar">
+            <div class="scan-page-selector">
+              <button class="page-toggle-btn active" data-page="front">
+                <span class="icon">📑</span> 正面 (第1~22題 / 答案卡 / 總分)
+              </button>
+              <button class="page-toggle-btn" data-page="back">
+                <span class="icon">📑</span> 反面 (第23~40題 / 填充題)
+              </button>
+            </div>
+
+            <div class="viewer-controls">
+              <button class="ctrl-btn" id="btnZoomIn" title="放大 (+)">🔍+</button>
+              <button class="ctrl-btn" id="btnZoomOut" title="縮小 (-)">🔍-</button>
+              <button class="ctrl-btn" id="btnZoomReset" title="重設縮放 (100%)">⟲ 重設</button>
+              <button class="ctrl-btn" id="btnFitWidth" title="適應寬度">↔️ 寬度</button>
+              <label class="hotspot-toggle-label" title="切換是否顯示試卷題目標籤標記">
+                <input type="checkbox" id="chkShowHotspots" checked>
+                <span>顯示題號標記</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 原卷展示區（支援縮放與題目座標標記點） -->
+          <div class="image-viewport-wrapper" id="imageViewport">
+            <div class="image-stage" id="imageStage">
+              <img id="examScanImg" src="正面.jpg" alt="段考試卷原卷" class="exam-scan-image">
+              <div class="hotspots-overlay" id="hotspotsOverlay">
+                <!-- 由 JS 動態注入該頁題目的交互標記點 -->
+              </div>
+            </div>
+          </div>
+
+          <div class="scan-footer-tip">
+            <span>💡 提示：點擊試卷上的「題號標記」或右側列表，兩側會自動雙向同步捲動並聚焦！可用滾輪或按鈕縮放檢視試卷細節。</span>
+          </div>
+        </div>
+
+        <!-- 右側：當前選中題目即時剖析面板 -->
+        <div class="question-inspector-panel" id="questionInspectorPanel">
+          <div class="inspector-header">
+            <div class="inspector-title-wrap">
+              <span class="inspector-icon">🎯</span>
+              <h3 class="inspector-heading">當前選取題目剖析</h3>
+            </div>
+            <div class="inspector-nav-btns">
+              <button class="nav-arrow-btn" id="btnPrevQuestion" title="上一題">◀ 上一題</button>
+              <span class="current-index-pill" id="currentQNumDisplay">第 1 題</span>
+              <button class="nav-arrow-btn" id="btnNextQuestion" title="下一題">下一題 ▶</button>
+            </div>
+          </div>
+
+          <!-- 題號快速跳轉膠囊條 -->
+          <div class="quick-jump-strip-container">
+            <div class="strip-label">快速切換題目：</div>
+            <div class="quick-jump-strip" id="quickJumpStrip">
+              <!-- 由 JS 動態生成 1~40 + 填1~6 膠囊 -->
+            </div>
+          </div>
+
+          <!-- 題目詳細卡片主體 -->
+          <div class="inspector-card-body" id="inspectorCardContent">
+            <!-- 由 JS 即時渲染當前題目內容 -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: 題庫全真逐題詳解 ==================== -->
+    <section id="tab-solutions" class="tab-content">
+      <div class="solutions-layout">
+        
+        <!-- 頂部篩選與搜尋工具列 -->
+        <div class="solutions-filter-bar">
+          <div class="search-box-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="solutionSearchInput" placeholder="搜尋題目內容、選項、答案、考點關鍵字（如：光年、電梯、核子、斜面、4.8）..." autocomplete="off">
+            <button class="clear-search-btn" id="btnClearSearch" title="清除搜尋">✕</button>
+          </div>
+
+          <div class="filter-categories-wrap" id="categoryFilterContainer">
+            <!-- 由 JS 動態渲染分類按鈕 -->
+          </div>
+        </div>
+
+        <!-- 試卷扣分重點速覽橫幅（若有開啟錯題篩選） -->
+        <div class="mistake-banner-callout" id="mistakeBannerCallout">
+          <div class="callout-icon">🚨</div>
+          <div class="callout-body">
+            <strong>試卷扣分診斷報告（總扣 10 分）：</strong>
+            <p>本次試卷整體表現極為優異（90分），失分點主要集中在 3 題選擇題（第 4 題公尺定義、第 16 題原子核中子電性、第 18 題絕對零度）與 2 格填充題（填 2 專有名詞「核子」誤寫強核、填 6(2) 平均速率漏掉小數點寫成 48）。點擊各題即可直擊盲點！</p>
+          </div>
+        </div>
+
+        <!-- 題目列表渲染容器 -->
+        <div class="solutions-grid" id="solutionsContainer">
+          <!-- 由 JS 渲染 46 道題目卡片 -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: 互動實戰模擬自測 ==================== -->
+    <section id="tab-quiz" class="tab-content">
+      <div class="quiz-container">
+        
+        <!-- 測驗起始控制面板 -->
+        <div class="quiz-setup-card" id="quizSetupCard">
+          <div class="quiz-hero">
+            <div class="quiz-hero-icon">🏆</div>
+            <h2 class="quiz-hero-title">段考全真線上互動測驗</h2>
+            <p class="quiz-hero-desc">透過互動答題即時檢驗段考物理概念掌握度，支援即時解析、自動計分與錯題重練！</p>
+          </div>
+
+          <div class="quiz-mode-selector">
+            <div class="mode-card active" data-mode="all">
+              <div class="mode-icon">📚</div>
+              <div class="mode-info">
+                <h4>全卷實戰測驗 (40題選擇)</h4>
+                <p>完整體驗段考選擇題，模擬考場計分與手感</p>
+              </div>
+              <span class="mode-badge">滿分 80 分</span>
+            </div>
+
+            <div class="mode-card" data-mode="wrong">
+              <div class="mode-icon">🎯</div>
+              <div class="mode-info">
+                <h4>卷面扣分與盲點題 (5題)</h4>
+                <p>針對原卷答錯的關鍵題目進行強化特訓</p>
+              </div>
+              <span class="mode-badge alert">突破盲點</span>
+            </div>
+
+            <div class="mode-card" data-mode="random10">
+              <div class="mode-icon">⚡</div>
+              <div class="mode-info">
+                <h4>快速抽測 (精選 10 題)</h4>
+                <p>五分鐘快速隨機抽測，適合考前快速暖身</p>
+              </div>
+              <span class="mode-badge">快速挑戰</span>
+            </div>
+          </div>
+
+          <div class="quiz-actions-bar">
+            <button class="btn-start-quiz" id="btnStartQuiz">
+              <span class="btn-icon">🚀</span> 開始互動測驗
+            </button>
+          </div>
+        </div>
+
+        <!-- 測驗進行中面板 -->
+        <div class="quiz-active-card hidden" id="quizActiveCard">
+          <div class="quiz-status-bar">
+            <div class="quiz-progress-wrap">
+              <div class="progress-labels">
+                <span id="quizProgressText">第 1 / 40 題</span>
+                <span id="quizScoreText">目前得分：0 分</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill" id="quizProgressBar"></div>
+              </div>
+            </div>
+
+            <button class="btn-quit-quiz" id="btnQuitQuiz" title="放棄並結束測驗">結束測驗</button>
+          </div>
+
+          <!-- 題目本體 -->
+          <div class="quiz-question-box" id="quizQuestionBox">
+            <!-- JS 動態填入題目與選項 -->
+          </div>
+
+          <!-- 即時反饋與解析 (答題後展開) -->
+          <div class="quiz-feedback-box hidden" id="quizFeedbackBox">
+            <!-- JS 動態填入正確/錯誤與解析 -->
+          </div>
+
+          <!-- 測驗控制按鈕 -->
+          <div class="quiz-footer-nav">
+            <button class="quiz-nav-btn" id="btnQuizPrev" disabled>◀ 上一題</button>
+            <button class="quiz-nav-btn primary" id="btnQuizNext">下一題 ▶</button>
+          </div>
+        </div>
+
+        <!-- 測驗結算成績單 -->
+        <div class="quiz-result-card hidden" id="quizResultCard">
+          <div class="result-header">
+            <div class="result-trophy">🎉</div>
+            <h2 class="result-title">測驗完成！成績報告</h2>
+            <div class="result-score-circle">
+              <span class="score-val" id="resultScoreVal">85</span>
+              <span class="score-denom" id="resultScoreDenom">/ 100</span>
+            </div>
+            <p class="result-comment" id="resultComment">太厲害了！你的物理觀念掌握得非常扎實！</p>
+          </div>
+
+          <div class="result-stats-grid">
+            <div class="stat-box">
+              <span class="stat-number correct" id="resultCorrectCount">37</span>
+              <span class="stat-label">答對題數</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number wrong" id="resultWrongCount">3</span>
+              <span class="stat-label">答錯題數</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number accuracy" id="resultAccuracy">92.5%</span>
+              <span class="stat-label">正確率</span>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <button class="btn-restart-quiz" id="btnRestartQuiz">🔄 重新測驗</button>
+            <button class="btn-review-solutions" id="btnReviewAllSolutions">📖 查看全部完整解析</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: 段考核心考點地圖 ==================== -->
+    <section id="tab-cheatsheet" class="tab-content">
+      <div class="cheatsheet-container">
+        
+        <div class="cheatsheet-intro">
+          <div class="intro-badge">⚡ 考前 10 分鐘衝刺秘笈</div>
+          <h2 class="intro-title">智光商工 高一物理第一次段考・核心考點精華圖譜</h2>
+          <p class="intro-desc">彙整本份試卷涵蓋的四大高頻命題單元，重點梳理 SI 基本量、牛頓三大定律、超重與失重電梯模型及往返速率速算公式。</p>
+        </div>
+
+        <div class="cheatsheet-cards-grid" id="cheatSheetGrid">
+          <!-- 由 JS 動態注入 4 大核心板塊 -->
+        </div>
+
+        <!-- 補充公式速查手冊 -->
+        <div class="physics-formula-reference">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;">
+            <h3 class="formula-title" style="margin-bottom:0;">📐 段考必備物理公式速查表</h3>
+            <span class="mobile-table-hint">👈 左右滑動表格 👉</span>
+          </div>
+          <div class="formula-table-wrap">
+            <table class="formula-table">
+              <thead>
+                <tr>
+                  <th>物理規律 / 觀念</th>
+                  <th>核心公式</th>
+                  <th>物理量代表意義</th>
+                  <th>試卷對應題號</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>牛頓第二運動定律</strong></td>
+                  <td><code>F<sub>net</sub> = m · a</code></td>
+                  <td>合外力 (N) = 質量 (kg) × 加速度 (m/s²)</td>
+                  <td>第 20, 29, 31 題</td>
+                </tr>
+                <tr>
+                  <td><strong>萬有引力定律</strong></td>
+                  <td><code>F = G · (M · m) / r²</code></td>
+                  <td>引力與距離平方成反比，高空重力變小</td>
+                  <td>第 5, 27, 30, 33 題</td>
+                </tr>
+                <tr>
+                  <td><strong>平均速度 vs 平均速率</strong></td>
+                  <td><code>v<sub>速度</sub> = Δx / Δt</code><br><code>v<sub>速率</sub> = 路徑長 / Δt</code></td>
+                  <td>往返原點位移為0，速度為0；平均速率 <code>2v₁v₂/(v₁+v₂)</code></td>
+                  <td>第 40 題、填充 6(1)(2)</td>
+                </tr>
+                <tr>
+                  <td><strong>電梯視重（超重與失重）</strong></td>
+                  <td>加速上升：<code>N = m(g + a)</code><br>減速上升：<code>N = m(g - a)</code></td>
+                  <td>磅秤讀數先增後減，失重/超重狀態</td>
+                  <td>第 39 題</td>
+                </tr>
+                <tr>
+                  <td><strong>光年定義與計算</strong></td>
+                  <td><code>1 光年 = c × 1 年</code><br><code>= 3×10⁸ × 86400 × 365 m</code></td>
+                  <td>光在真空中前進一年的距離，約 9.46×10¹⁵ 公尺</td>
+                  <td>第 11, 14, 15 題</td>
+                </tr>
+                <tr>
+                  <td><strong>溫標換算公式</strong></td>
+                  <td><code>C = (F - 32) × 5 / 9</code><br><code>T(K) = C + 273.15</code></td>
+                  <td>絕對零度為 0 K (-273.15 ℃)，122°F = 50 ℃</td>
+                  <td>第 3, 18 題、填充 5</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 底部版權與備註 -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-tag">智光商工日間部 115學年度 物理科試卷解析</span>
+        <span class="footer-note">包含原卷正面/反面雙圖對照、46 題全真詳細解析、解題陷阱與互動練習</span>
+      </div>
+      <div class="footer-right">
+        <span>© 2026 高職物理教學解析系統</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 圖片全螢幕燈箱 Modal -->
+  <div class="lightbox-modal hidden" id="lightboxModal" style="display: none;">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close-btn" id="btnCloseLightbox">✕ 關閉</button>
+      <div class="lightbox-title-bar" id="lightboxTitleBar">試卷正面高清檢視</div>
+      <img id="lightboxImg" src="" alt="試卷大圖">
+    </div>
+  </div>
+
+  <!-- 載入資料與邏輯腳本 -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
